@@ -5,7 +5,7 @@ defmodule PublicSuffix.Mixfile do
     [
       app: :public_suffix,
       version: "0.6.0",
-      elixir: "~> 1.9",
+      elixir: "~> 1.14",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),
@@ -17,10 +17,7 @@ defmodule PublicSuffix.Mixfile do
 
   def application do
     [
-      # :idna is intentionally NOT included in this list because it is
-      # only used at compile time, as part of processing the publicsuffix.org
-      # rules file. So it is not needed at runtime.
-      applications: [
+      extra_applications: [
         :logger
       ]
     ]
@@ -28,7 +25,7 @@ defmodule PublicSuffix.Mixfile do
 
   defp deps do
     [
-      {:idna, ">= 1.2.0 and < 7.0.0"},
+      {:idna, ">= 1.2.0 and < 7.0.0", runtime: false},
       # ex_doc and earmark are necessary to publish docs to hexdocs.pm.
       {:ex_doc, ">= 0.0.0", only: :dev},
       {:earmark, ">= 0.0.0", only: :dev}
