@@ -1,15 +1,15 @@
 defmodule PublicSuffix.RulesParser do
   @moduledoc false
 
-  @type rule :: [String.t, ...]
+  @type rule :: [String.t(), ...]
   @type rule_type :: :icann | :private
   @type rule_map :: %{rule => rule_type}
 
-  @spec parse_rules(String.t) :: %{
-    exception_rules: rule_map,
-    exact_match_rules: rule_map,
-    wild_card_rules: rule_map,
-  }
+  @spec parse_rules(String.t()) :: %{
+          exception_rules: rule_map,
+          exact_match_rules: rule_map,
+          wild_card_rules: rule_map
+        }
   def parse_rules(rule_string) do
     [icann_rule_string, private_rule_string] =
       rule_string
@@ -38,7 +38,8 @@ defmodule PublicSuffix.RulesParser do
       |> Enum.split_with(&String.starts_with?(&1, "!"))
 
     # TODO: "Wildcards are not restricted to appear only in the leftmost position"
-    {wild_card_rules, exact_match_rules} = Enum.split_with(normal_rules, &String.starts_with?(&1, "*."))
+    {wild_card_rules, exact_match_rules} =
+      Enum.split_with(normal_rules, &String.starts_with?(&1, "*."))
 
     exception_rules =
       exception_rules
@@ -51,7 +52,7 @@ defmodule PublicSuffix.RulesParser do
     %{
       exception_rules: exception_rules,
       exact_match_rules: exact_match_rules,
-      wild_card_rules: wild_card_rules,
+      wild_card_rules: wild_card_rules
     }
   end
 
@@ -62,7 +63,7 @@ defmodule PublicSuffix.RulesParser do
 
   def punycode_domain(rule) do
     rule
-    |> :unicode.characters_to_list
+    |> :unicode.characters_to_list()
     |> :idna.encode(uts46: true)
     |> to_string()
   end
@@ -71,6 +72,6 @@ defmodule PublicSuffix.RulesParser do
     rules
     # "A domain or rule can be split into a list of labels using the separator "." (dot)."
     |> Stream.map(&{String.split(&1, "."), type})
-    |> Map.new
+    |> Map.new()
   end
 end

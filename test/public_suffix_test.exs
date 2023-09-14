@@ -5,7 +5,7 @@ defmodule PublicSuffix.PublicSuffixTest do
 
   test_cases = [
     {"exact match", "foo.github.io", "foo.github.io", "github.io"},
-    {"wildcard", "foo.bar.elb.amazonaws.com", "foo.bar.elb.amazonaws.com", "amazonaws.com"},
+    {"wildcard", "foo.bar.elb.amazonaws.com", "foo.bar.elb.amazonaws.com", "amazonaws.com"}
     # The current rules file does not have any private exception rules, so we don't
     # have any tests for it :(.
   ]
@@ -30,10 +30,11 @@ defmodule PublicSuffix.PublicSuffixTest do
 
   test_cases_prevailing_private = [
     {"exact match", "foo.github.io", "github.io", "io"},
-    {"wildcard", "foo.bar.elb.amazonaws.com", "*.elb.amazonaws.com", "com"},
+    {"wildcard", "foo.bar.elb.amazonaws.com", "*.elb.amazonaws.com", "com"}
   ]
 
-  for {rule_type, input, expected_with_private, expected_without_private} <- test_cases_prevailing_private do
+  for {rule_type, input, expected_with_private, expected_without_private} <-
+        test_cases_prevailing_private do
     @input input
     @expected_with_private expected_with_private
     @expected_without_private expected_without_private
@@ -75,7 +76,7 @@ defmodule PublicSuffix.PublicSuffixTest do
     {"TLD with a wildcard rule and exceptions", "test.ck", "*.ck"},
     {"TLD with a wildcard rule and exceptions", "b.test.ck", "*.ck"},
     {"TLD with a wildcard rule and exceptions", "www.ck", "!www.ck"},
-    {"TLD with a wildcard rule and exceptions", "www.www.ck", "!www.ck"},
+    {"TLD with a wildcard rule and exceptions", "www.www.ck", "!www.ck"}
   ]
 
   for {rule_type, input, expected_output} <- test_cases_prevailing do
@@ -97,7 +98,7 @@ defmodule PublicSuffix.PublicSuffixTest do
     {"domain with leading dot", ".com", false},
     {"unlisted TLD", "example", false},
     {"empty string", "", false},
-    {"nil", nil, false},
+    {"nil", nil, false}
   ]
 
   for {rule_type, input, expected_output} <- test_cases_matches_explicit do
@@ -124,7 +125,7 @@ defmodule PublicSuffix.PublicSuffixTest do
 
   defp roundtrip_through_punycoding(domain) do
     domain
-    |> PublicSuffix.RulesParser.punycode_domain
+    |> PublicSuffix.RulesParser.punycode_domain()
     |> to_charlist
     |> :idna.decode(uts46: true)
     |> to_string
