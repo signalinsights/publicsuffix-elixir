@@ -3,12 +3,11 @@ defmodule PublicSuffix.ConfigurationTest do
   @data_file_name "public_suffix_list.dat"
   @cached_data_dir Path.expand("../data", __DIR__)
 
-  setup do
-    temp_dir = "tmp/#{:test_server.temp_name(~c"public_suffix-test")}"
-    File.mkdir_p!(temp_dir)
+  @moduletag :tmp_dir
 
+  setup(%{tmp_dir: tmp_dir}) do
     cached_file_name = Path.join(@cached_data_dir, @data_file_name)
-    backup_file_name = Path.join(temp_dir, @data_file_name)
+    backup_file_name = Path.join(tmp_dir, @data_file_name)
 
     File.cp!(cached_file_name, backup_file_name)
 
@@ -23,7 +22,7 @@ defmodule PublicSuffix.ConfigurationTest do
       # restore things...
       recompile_lib()
       File.cp!(backup_file_name, cached_file_name)
-      File.rm_rf!(temp_dir)
+      File.rm_rf!(tmp_dir)
     end)
   end
 
