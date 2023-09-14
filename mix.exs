@@ -18,7 +18,9 @@ defmodule PublicSuffix.Mixfile do
   def application do
     [
       extra_applications: [
-        :logger
+        :logger,
+        :inets,
+        :ssl
       ]
     ]
   end
