@@ -5,7 +5,7 @@ defmodule PublicSuffix.Mixfile do
     [
       app: :public_suffix,
       version: "0.6.0",
-      elixir: "~> 1.5",
+      elixir: "~> 1.9",
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       aliases: aliases(),

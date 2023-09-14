@@ -1,6 +1,4 @@
-# This file is responsible for configuring your application
-# and its dependencies with the aid of the Mix.Config module.
-use Mix.Config
+import Config
 
 if System.get_env("PUBLIC_SUFFIX_DOWNLOAD_DATA_ON_COMPILE") do
   config :public_suffix, download_data_on_compile: true
