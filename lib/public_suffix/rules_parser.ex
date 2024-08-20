@@ -13,7 +13,7 @@ defmodule PublicSuffix.RulesParser do
   def parse_rules(rule_string) do
     [icann_rule_string, private_rule_string] =
       rule_string
-      |> String.split(~r|===END ICANN DOMAINS===\n// ===BEGIN PRIVATE DOMAINS===|, parts: 2)
+      |> String.split(~r|===END ICANN DOMAINS===\n\n// ===BEGIN PRIVATE DOMAINS===|, parts: 2)
 
     icann_rules = parse_rules_section(icann_rule_string, :icann)
     private_rules = parse_rules_section(private_rule_string, :private)
